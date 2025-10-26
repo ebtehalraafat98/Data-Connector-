@@ -1,0 +1,12 @@
+﻿<RevitAddIns>
+	<AddIn Type="Application">
+		<Name>Data Connectors</Name>
+		<Assembly>DataConnectors\RevitWithWPF.dll</Assembly>
+		<FullClassName>RevitWithWPF.Application.ExternalApp</FullClassName>
+		<ClientId>A5F7AA48-DDF1-4A47-996F-488C022F1737</ClientId>
+		<VendorId>ITI</VendorId>
+		<VendorDescription> </VendorDescription>
+		<VendorDescription>@ITI</VendorDescription>
+		<VisibilityMode>Visible</VisibilityMode>
+	</AddIn>
+</RevitAddIns>

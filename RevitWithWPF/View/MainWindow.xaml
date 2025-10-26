@@ -1,0 +1,405 @@
+﻿<Window x:Class="RevitWithWPF.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xbim ="http://schemas.Xbim.com/Presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RevitWithWPF.View"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+
+
+        mc:Ignorable="d"
+         Height="600" Width="400"
+        Title="Data Connector"
+        BorderBrush="#333"
+        BorderThickness="0.5"
+        Padding="10">
+
+	<Window.Resources>
+
+		<Style x:Key="SelectButtonStyle" TargetType="Button">
+
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="Foreground" Value="Black"/>
+			<Setter Property="Height" Value="35"/>
+			<Setter Property="Width" Value="150"/>
+			<Setter Property="FontSize" Value="12"/>
+			<Setter Property="FontFamily" Value="Helvetica"/>
+			<Setter Property="Margin" Value="5 0 5 0"/>
+
+
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Button">
+						<Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="#FF8A8484" BorderThickness="0.6">
+							<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+						</Border>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+
+			<Style.Triggers>
+
+				<Trigger Property="IsMouseOver" Value="True">
+					<Setter Property="Background" Value=" #565656"/>
+
+				</Trigger>
+				<Trigger Property="IsPressed" Value="True">
+					<Setter Property="Background" Value="#949494"/>
+
+				</Trigger>
+			</Style.Triggers>
+
+
+
+		</Style>
+
+
+		<Style x:Key="RoundButtonStyle" TargetType="Button">
+
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="Foreground" Value="#FF65B5E8"/>
+			<Setter Property="Padding" Value="0 0 0 4"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Button">
+						<Border Background="{TemplateBinding Background}" CornerRadius="20" BorderBrush="#FF65B5E8" BorderThickness="1">
+							<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+						</Border>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+
+			<Style.Triggers>
+
+				<Trigger Property="IsMouseOver" Value="True">
+					<Setter Property="Background" Value=" #565656"/>
+
+				</Trigger>
+				<Trigger Property="IsPressed" Value="True">
+					<Setter Property="Background" Value="#949494"/>
+
+				</Trigger>
+			</Style.Triggers>
+
+
+
+		</Style>
+		<Style x:Key="menuButtonIcon" TargetType="iconPacks:PackIconUnicons">
+			<Setter Property="Width" Value="12" />
+			<Setter Property="Height" Value="12" />
+			<Setter Property="Margin" Value="0 0 5 0" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+			<Setter Property="Foreground" Value="{Binding Path=Foreground , RelativeSource={RelativeSource FindAncestor ,AncestorType={x:Type Button}}}" />
+
+		</Style>
+
+		<Style x:Key="menuButtonText" TargetType="TextBlock">
+			<Setter Property="Foreground" Value="{Binding Path=Foreground , RelativeSource={RelativeSource FindAncestor ,AncestorType={x:Type Button}}}" />
+			<Setter Property="FontSize" Value="12"/>
+			<Setter Property="FontWeight" Value="Light"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+		</Style>
+		<Style TargetType="TextBlock" x:Key="txtBlockStyle1">
+			<Style.Setters>
+				<Setter Property="FontWeight" Value="Light"/>
+				<Setter Property="FontFamily" Value="helvetica"/>
+				<Setter Property="FontSize" Value="12"/>
+				<Setter Property="Foreground" Value="White"/>
+				<Setter Property="HorizontalAlignment" Value="Left"/>
+				<Setter Property="VerticalAlignment" Value="Center"/>
+			</Style.Setters>
+		</Style>
+		<SolidColorBrush x:Key="OptionMark.Static.Background" Color="#FFFFFFFF"/>
+		<SolidColorBrush x:Key="OptionMark.Static.Border" Color="#FF707070"/>
+		<SolidColorBrush x:Key="OptionMark.Static.Glyph" Color="#FF212121"/>
+		<SolidColorBrush x:Key="OptionMark.MouseOver.Background" Color="#FFF3F9FF"/>
+		<SolidColorBrush x:Key="OptionMark.MouseOver.Border" Color="#FF707070"/>
+		<SolidColorBrush x:Key="OptionMark.MouseOver.Glyph" Color="#FF212121"/>
+		<SolidColorBrush x:Key="OptionMark.Pressed.Background" Color="#FFD9ECFF"/>
+		<SolidColorBrush x:Key="OptionMark.Pressed.Border" Color="#FF707070"/>
+		<SolidColorBrush x:Key="OptionMark.Pressed.Glyph" Color="#FF212121"/>
+		<SolidColorBrush x:Key="OptionMark.Disabled.Background" Color="#FFE6E6E6"/>
+		<SolidColorBrush x:Key="OptionMark.Disabled.Border" Color="#FFBCBCBC"/>
+		<SolidColorBrush x:Key="OptionMark.Disabled.Glyph" Color="#FF707070"/>
+		<Style x:Key="CheckBoxStyle1" TargetType="{x:Type CheckBox}">
+			<Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+			<Setter Property="Background" Value="{StaticResource OptionMark.Static.Background}"/>
+			<Setter Property="BorderBrush" Value="#FFD2D2D2"/>
+			<Setter Property="Foreground" Value="Black"/>
+			<Setter Property="FontSize" Value="12"/>
+
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type CheckBox}">
+						<Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto"/>
+								<ColumnDefinition Width="*"/>
+							</Grid.ColumnDefinitions>
+							<Border x:Name="checkBoxBorder" CornerRadius="3" Padding="1" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+								<Grid x:Name="markGrid">
+									<Path x:Name="optionMark" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Fill="{StaticResource OptionMark.Static.Glyph}" Margin="1" Opacity="0" Stretch="None"/>
+									<Rectangle x:Name="indeterminateMark" Fill="{StaticResource OptionMark.Static.Glyph}" Margin="2" Opacity="0"/>
+								</Grid>
+							</Border>
+							<ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+						</Grid>
+						<ControlTemplate.Triggers>
+							<Trigger Property="HasContent" Value="true">
+								<Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+								<Setter Property="Padding" Value="4,-1,0,0"/>
+							</Trigger>
+							<Trigger Property="IsMouseOver" Value="true">
+								<Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.MouseOver.Background}"/>
+								<Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="#FF707070"/>
+								<Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.MouseOver.Glyph}"/>
+								<Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.MouseOver.Glyph}"/>
+							</Trigger>
+							<Trigger Property="IsEnabled" Value="false">
+								<Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Background}"/>
+								<Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Border}"/>
+								<Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.Disabled.Glyph}"/>
+								<Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.Disabled.Glyph}"/>
+							</Trigger>
+							<Trigger Property="IsPressed" Value="true">
+								<Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Pressed.Background}"/>
+								<Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="#FF707070"/>
+								<Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.Pressed.Glyph}"/>
+								<Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.Pressed.Glyph}"/>
+							</Trigger>
+							<Trigger Property="IsChecked" Value="true">
+								<Setter Property="Opacity" TargetName="optionMark" Value="1"/>
+								<Setter Property="Opacity" TargetName="indeterminateMark" Value="0"/>
+							</Trigger>
+							<Trigger Property="IsChecked" Value="{x:Null}">
+								<Setter Property="Opacity" TargetName="optionMark" Value="0"/>
+								<Setter Property="Opacity" TargetName="indeterminateMark" Value="1"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style x:Key="TextBoxStyle" TargetType="TextBox">
+			<Setter Property="Background" Value="#ffffff"/>
+			<Setter Property="Foreground" Value="Black"/>
+			<Setter Property="BorderThickness" Value="0"/>
+			<Setter Property="FontSize" Value="13"/>
+			<Setter Property="Padding" Value="15 5 15 0"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Margin" Value="0 0 0 0"/>
+
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="TextBoxBase">
+						<Border x:Name="border" Height="30" CornerRadius="5" Background="{TemplateBinding Background}" SnapsToDevicePixels="True" 
+                                BorderBrush="#FF8A8484" BorderThickness="0.6">
+							<ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+
+						</Border>
+
+					</ControlTemplate>
+
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style x:Key="searchTextbox" TargetType="TextBox">
+			<Setter Property="Background" Value="#ffffff"/>
+			<Setter Property="Foreground" Value="#767676"/>
+			<Setter Property="BorderThickness" Value="0"/>
+			<Setter Property="FontSize" Value="12"/>
+			<Setter Property="Padding" Value="150 15"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Margin" Value="0 10"/>
+			<Setter Property="Template" >
+				<Setter.Value>
+					<ControlTemplate TargetType="TextBoxBase">
+						<Border x:Name="border" CornerRadius="22" Background="{TemplateBinding Background }" BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="True">
+							<ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" 
+                                          VerticalScrollBarVisibility="Hidden"/>
+						</Border>
+
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsMouseOver" Value="True">
+								<Setter Property="BorderBrush" Value="#d9d9d9" TargetName="border"/>
+							</Trigger>
+
+							<Trigger Property="IsKeyboardFocused" Value="True">
+								<Setter Property="BorderBrush" Value="#d9d9d9" TargetName="border"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</Window.Resources>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+
+			<ColumnDefinition  Width="1.5*"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+
+			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="4*"></RowDefinition>
+			<RowDefinition Height="2*"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+
+
+
+
+		</Grid.RowDefinitions>
+		<!--DataContext="{StaticResource ModelProvider}"-->
+		<Grid Margin="0 20 0 0" Grid.Row="1" Grid.RowSpan="1" Grid.ColumnSpan="2"
+              Name="MainFrame" >
+			<xbim:DrawingControl3D 
+                x:Name="DrawingControl" 
+                Focusable="True" 
+                Width="Auto" 
+                Height="Auto" 
+                Model="{Binding Model, NotifyOnSourceUpdated=True, Mode=OneWay}"
+            >
+				<xbim:DrawingControl3D.Background>
+					<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+						<GradientStop Color="White" Offset="1"/>
+						<GradientStop Color="White"/>
+					</LinearGradientBrush>
+				</xbim:DrawingControl3D.Background>
+			</xbim:DrawingControl3D>
+			<!--<xbim:DrawingControl3D
+                 x:Name="DrawingControl" 
+                  SelectedEntity="{Binding Path= SelectedItem ,ElementName=MainWindow,Mode=TwoWay}"
+                   Model="{Binding}"
+                   Focusable="True" >
+                <xbim:DrawingControl3D.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox"
+                                         StartPoint=".5,0" >
+                        <GradientStop Color="White"/>
+                        <GradientStop Color="White"/>
+                    </LinearGradientBrush>
+                </xbim:DrawingControl3D.Background>
+            </xbim:DrawingControl3D>-->
+		</Grid>
+
+		<!--<Button Style="{StaticResource SelectButtonStyle}" Name="LoadIFCFile" Grid.Row="3" Width="100" Height="30" 
+                 Margin="0" Grid.Column="0" Click="OpenIFC">
+            <StackPanel Orientation="Horizontal">
+                <iconPacks:PackIconUnicons  Kind="ArrowDown" Style="{StaticResource menuButtonIcon}"/>
+                <TextBlock Text="Load IFC File" Style="{StaticResource menuButtonText }"/>
+            </StackPanel>
+        </Button>-->
+		<StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 0">
+			<Button Style="{StaticResource SelectButtonStyle}" Name="RunModelling" 
+                    Grid.Row="4" Grid.Column="1" Width="100" Height="30" Command="{Binding Create}" >
+				<StackPanel Orientation="Horizontal">
+					<iconPacks:PackIconUnicons  Kind="ObjectGroup" Style="{StaticResource menuButtonIcon}" />
+					<TextBlock Text="Run Model" Style="{StaticResource menuButtonText }"/>
+				</StackPanel>
+			</Button>
+			<Button Style="{StaticResource SelectButtonStyle}" Name="Cancel" Grid.Row="3" Grid.Column="1" Width="100" Height="30" Command="{Binding Cancel}"  Click="Button_Click" >
+				<StackPanel Orientation="Horizontal">
+					<!--<iconPacks:PackIconUnicons  Kind="Cancel" Style="{StaticResource menuButtonIcon}"/>-->
+					<TextBlock Text="Cancel" Style="{StaticResource menuButtonText }"/>
+				</StackPanel>
+			</Button>
+		</StackPanel>
+       
+        <Image Source="/Resources/logo.png" Opacity="70" VerticalAlignment="Center" Grid.Row="3"  Width="140"  Margin="20,0,239,0" ></Image>
+        <!--<StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Margin="20,0,0,0">
+            <iconPacks:PackIconMaterial Height="30" Width="30"  Kind="TransitConnectionVariant"  Margin="0,0,5,0"/>
+            <TextBlock  Text="WeBIM" VerticalAlignment="Center"  FontSize="15" Margin="0,0,0,0" ></TextBlock>
+        </StackPanel>-->
+
+		<!--<Separator Grid.Column="1" Margin="0,18,-57,0" Grid.Row="0" VerticalAlignment="Top" >
+            <Separator.Background>
+                <SolidColorBrush Color="#FF676665" Opacity="0.8" />
+            </Separator.Background>
+
+            <Separator.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Separator.RenderTransform>
+        </Separator>-->
+		<StackPanel Grid.Row="0" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Left" Margin="20 0 0 0"
+                    Grid.ColumnSpan="2">
+
+			<TextBox Name="label" Width="250" Style="{StaticResource TextBoxStyle }" Text="{Binding FilePath ,Mode=TwoWay}">
+
+			</TextBox>
+			<Button HorizontalAlignment="Right" Style="{StaticResource SelectButtonStyle}" 
+                    Name="Browse"  Width="100" Height="30" Command="{Binding BrowseCommand}" VerticalAlignment="Center" >
+				<StackPanel Orientation="Horizontal">
+					<iconPacks:PackIconUnicons  Kind="File" Style="{StaticResource menuButtonIcon}"/>
+					<TextBlock Text="Browse" Style="{StaticResource menuButtonText }"/>
+				</StackPanel>
+			</Button>
+		</StackPanel>
+
+		<Separator Margin="20,-1,20,0" VerticalAlignment="Top" Grid.Row="1"
+                   Grid.ColumnSpan="2" >
+			<Separator.Background>
+				<SolidColorBrush Color="#FF676665" Opacity="0.5"  />
+			</Separator.Background>
+
+
+		</Separator>
+		<StackPanel Grid.Row="2" Margin="0 10 0 0" Grid.ColumnSpan="2">
+			<TextBlock Text="Entities to Create" Margin="20 0 0 0 " Style="{StaticResource menuButtonText }" FontSize="15" FontWeight="Bold"></TextBlock >
+			<StackPanel Margin="20 10 20 0" Height="70">
+				<Grid >
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition  Width="*"></ColumnDefinition>
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*"></RowDefinition>
+						<RowDefinition Height="*"></RowDefinition>
+						<RowDefinition Height="*"></RowDefinition>
+					</Grid.RowDefinitions>
+					<CheckBox VerticalContentAlignment="Center" IsChecked="{Binding levels , Mode=TwoWay}"
+                              Grid.Row="0" Grid.Column="0" Content="Levels" x:Name="C5" Style="{StaticResource CheckBoxStyle1}" Margin="0,0,0,0" Grid.RowSpan="2"/>
+					<CheckBox VerticalContentAlignment="Center" 
+                              IsChecked="{Binding Grids , Mode=TwoWay}" Grid.Row="0" Grid.Column="1" x:Name="C6" Content="Grids" Style="{StaticResource CheckBoxStyle1}" Margin="0" Grid.RowSpan="2"/>
+
+					<CheckBox VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="0" Content="Columns" x:Name="C1" Style="{StaticResource CheckBoxStyle1}"
+                              IsChecked="{Binding Columns , Mode=TwoWay}" Margin="0,4,179,-4" Grid.ColumnSpan="2" />
+					<CheckBox VerticalContentAlignment="Center"  Grid.Row="2" Grid.Column="1" x:Name="C2" Content="Beams" Style="{StaticResource CheckBoxStyle1}"
+                              IsChecked="{Binding Beams , Mode=TwoWay}" Margin="0,4,0,-4"/>
+					<CheckBox VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="0" Content="Floors" x:Name="C3" Style="{StaticResource CheckBoxStyle1}"
+                              IsChecked="{Binding Floors , Mode=TwoWay}"  Margin="0,27,179,-27" Grid.ColumnSpan="2"/>
+                    <CheckBox VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="1" x:Name="C4" Content="Slanted Columns" Style="{StaticResource CheckBoxStyle1}"
+                              IsChecked="{Binding SlantedColumns , Mode=TwoWay}" Margin="0,27,0,-27"/>
+                    <CheckBox VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="0" x:Name="C7" Content="Footing" Style="{StaticResource CheckBoxStyle1}"
+                              IsChecked="{Binding Footing , Mode=TwoWay}" Margin="0,49,179,-49" Grid.ColumnSpan="2"/>
+
+
+
+
+</Grid>
+			</StackPanel>
+
+
+		</StackPanel>
+
+		<!--<canvas id="viewer" width="500" height="300"></canvas>
+        <script type="text/javascript">
+            var viewer = new Viewer('viewer');
+            viewer.on('loaded', () => {
+            viewer.show(ViewType.DEFAULT);
+            });
+            viewer.load('../data/SampleHouse.wexbim');
+            viewer.start();
+        </script>-->
+	</Grid>
+
+
+</Window>
